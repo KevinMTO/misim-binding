@@ -133,3 +133,4 @@ quantum realm.
 - The paper describing this decision diagram package (with a special focus on the representation of complex numbers):
   A. Zulehner, S. Hillmich and R. Wille. How to Efficiently Handle Complex Values? Implementing Decision Diagrams for
   Quantum Computing. The IEEE/ACM International Conference on Computer-Aided Design (ICCAD). 2019
+# misim-binding
