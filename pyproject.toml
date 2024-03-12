@@ -7,8 +7,9 @@ name = "mqt.misim"
 description = "A quantum simulator based on decision diagrams written in C++"
 readme = "README.md"
 authors = [
+{ name = "Kevin Mato", email = "kevin.mato@tum.de"}
     { name = "Stefan Hillmich", email = "stefan.hillmich@jku.at"},
-    { name = "Lukas Burgholzer", email = "lukas.burgholzer@tum.de"}
+
 ]
 keywords = ["MQT", "quantum-computing", "design-automation", "quantum-circuit-sim", "simulation"]
 license = { file = "LICENSE" }
@@ -34,10 +35,7 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 
-dynamic = ["version"]
-
-
-
+# dynamic = ["version"]
 
 
 [tool.scikit-build]
