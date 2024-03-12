@@ -1,0 +1,18 @@
+# C++ / CLion
+/build*
+/cmake-build-*
+.idea
+
+# Python
+venv/
+.venv/
+*.egg-info/
+__pycache__/
+*.so
+.pytest_cache/
+.ipynb_checkpoints/
+
+# GraphViz files
+*.dot
+*.dot.svg
+.precomenv/
