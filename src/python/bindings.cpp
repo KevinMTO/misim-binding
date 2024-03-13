@@ -342,11 +342,11 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 
                     if (std::holds_alternative<std::vector<int>>(mode)) {
                         std::cout << "qudits is int vec  "<< std::endl;
-                        qudits = std::any_cast<std::vector<int>>(mode);
+                        qudits = std::get<std::vector<int>>(mode);
 
                     } else if (std::holds_alternative<std::string>(mode)) {
                         std::cout << "string mode "<< std::endl;
-                        std::string mode_str = std::any_cast<std::string>(mode);
+                        std::string mode_str = std::get<std::string>(mode);
                         if (mode_str == "local") {
                             qudits = referenceLines;
                         } else if (mode_str == "all") {
