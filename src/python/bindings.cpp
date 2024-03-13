@@ -671,6 +671,15 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
 
 CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& dims, const Circuit& circuit){
     std::cout << "ddsim 0  "<< std::endl;
+    std::cout << "NUM LINES "<< numLines << std::endl;
+    std::cout << "dims " << std::endl;
+    for (size_t i = 0; i < dims.size(); ++i) {
+        std::cout << dims[i];
+        if (i != dims.size() - 1) {
+            std::cout << ", ";
+        }
+    }
+
     const ddpkg dd = std::make_unique<dd::MDDPackage>(numLines, dims);
     auto psi = dd->makeZeroState(numLines);
     std::cout << "going to loop "<< std::endl;
@@ -691,22 +700,24 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 	auto parsedCircuitInfo = readCircuit(circ);
 	auto [numQudits, dims, original_circuit] = parsedCircuitInfo;
 
-
+    Circuit noisyCircuit = original_circuit;
 
 	std::cout << "simsimsimsimsims"<< std::endl;
+    if (py::none() == noiseModel) {
+        py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
+        NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
+        printNoiseModel(newNoiseModel);
 
-	py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
-	NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
-	printNoiseModel(newNoiseModel);
+        std::cout << "======================================================"<< std::endl;
 
-	std::cout << "======================================================"<< std::endl;
+        printCircuit(std::get<2>(parsedCircuitInfo));
+        Circuit noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
 
-	printCircuit(std::get<2>(parsedCircuitInfo));
-	Circuit noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
+        std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
 
-	std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
+        printCircuit(noisyCircuit);
+    }
 
-	printCircuit(noisyCircuit);
 
 	std::cout << "===================DD SIMULATION======================"<< std::endl;
 
