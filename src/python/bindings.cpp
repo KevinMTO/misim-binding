@@ -167,9 +167,10 @@ py::list complex_vector_to_list(const CVec& vec) {
 
 
 
-Circuit_info read_circuit(py::object &circ) {
+Circuit_info readCircuit(py::object &circ) {
     Circuit result;
-    
+    std::cout << "reading" << std::endl;
+
     unsigned int num_qudits = circ.attr("_num_qudits").cast<unsigned int>();
     std::vector<size_t> dimensions = circ.attr("_dimensions").cast<std::vector<size_t>>();
     
@@ -681,17 +682,17 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
 }
 
 
-py::list stateVectorSimulation(py::object &circ, py::object &noise_model){
+py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 //py::list stateVectorSimulation(){
-
-	auto parsedCircuitInfo = read_circuit(circ);
+    std::cout << "INSIDE" << std::endl;
+	auto parsedCircuitInfo = readCircuit(circ);
 	auto [numQudits, dims, original_circuit] = parsedCircuitInfo;
 
 
 
 	std::cout << "simsimsimsimsims"<< std::endl;
 
-	py::dict noiseModelDict = noise_model.attr("quantum_errors").cast<py::dict>();
+	py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
 	NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
 	printNoiseModel(newNoiseModel);
 
