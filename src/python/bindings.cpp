@@ -172,8 +172,6 @@ Circuit_info read_circuit(py::object &circ) {
     
     unsigned int num_qudits = circ.attr("_num_qudits").cast<unsigned int>();
     std::vector<size_t> dimensions = circ.attr("_dimensions").cast<std::vector<size_t>>();
-
-    bool dagger = circ.attr("dagger").cast<bool>();
     
     std::cout << "No need to store this string";
     
@@ -193,6 +191,8 @@ Circuit_info read_circuit(py::object &circ) {
         // Print the string representation
         std::string tag = obj.attr("qasm_tag").cast<std::string>();
         std::cout << tag << std::endl;
+
+        bool dagger = obj.attr("dagger").cast<bool>();
 
 	  // Get the string representation of the Python enum value
 	  std::string gate_type = py::cast<std::string>(obj.attr("gate_type").attr("name"));
