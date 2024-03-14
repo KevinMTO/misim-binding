@@ -123,8 +123,8 @@ namespace dd {
     inline GateMatrix RXY(fp theta, fp phi) {
         GateMatrix rotation = {
                 dd::ComplexValue{std::cos(theta / 2.), 0.},
-                dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)},
                 dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)},
+                dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)},
                 dd::ComplexValue{std::cos(theta / 2.), 0.}};
         return rotation;
     }
@@ -147,8 +147,8 @@ namespace dd {
     inline GateMatrix embX2(fp phi) {
         GateMatrix identity    = {COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE};
         identity.at(0) = COMPLEX_ZERO;
-        identity.at(1) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
-        identity.at(2) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(2) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
+        identity.at(1) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
         identity.at(3) = COMPLEX_ZERO;
         return identity;
     }
@@ -235,8 +235,8 @@ namespace dd {
         std::cout<< "theta" << theta << std::endl;
         std::cout<< "phi" << phi << std::endl;
         identity.at(3 * leva + leva) = dd::ComplexValue{std::cos(theta / 2.), 0.};
-        identity.at(3 * leva + levb) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
-        identity.at(3 * levb + leva) = dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(3 * levb + leva) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(3 * leva + levb) = dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
         identity.at(3 * levb + levb) = dd::ComplexValue{std::cos(theta / 2.), 0.};
         return identity;
     }
@@ -305,8 +305,8 @@ namespace dd {
                 COMPLEX_ZERO,
                 COMPLEX_ONE};
         identity.at(3 * leva + leva) = COMPLEX_ZERO;
-        identity.at(3 * leva + levb) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
-        identity.at(3 * levb + leva) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(3 * leva + levb) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(3 * levb + leva) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
         identity.at(3 * levb + levb) = COMPLEX_ZERO;
         return identity;
     }
@@ -376,8 +376,8 @@ namespace dd {
                 COMPLEX_ZERO,
                 COMPLEX_ONE};
         identity.at(4 * leva + leva) = dd::ComplexValue{std::cos(theta / 2.), 0.};
-        identity.at(4 * leva + levb) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
-        identity.at(4 * levb + leva) = dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(4 * levb + leva) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(4 * leva + levb) == dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
         identity.at(4 * levb + levb) = dd::ComplexValue{std::cos(theta / 2.), 0.};
         return identity;
     }
@@ -466,8 +466,8 @@ namespace dd {
                 COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO,
                 COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE};
         identity.at(4 * leva + leva) = COMPLEX_ZERO;
-        identity.at(4 * leva + levb) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
-        identity.at(4 * levb + leva) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(4 * leva + levb) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(4 * levb + leva) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
         identity.at(4 * levb + levb) = COMPLEX_ZERO;
         return identity;
     }
@@ -558,8 +558,8 @@ namespace dd {
                 COMPLEX_ZERO,
                 COMPLEX_ONE};
         identity.at(5 * leva + leva) = dd::ComplexValue{std::cos(theta / 2.), 0.};
-        identity.at(5 * leva + levb) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
-        identity.at(5 * levb + leva) = dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(5 * levb + leva) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(5 * leva + levb) = dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
         identity.at(5 * levb + levb) = dd::ComplexValue{std::cos(theta / 2.), 0.};
         return identity;
     }
@@ -683,8 +683,8 @@ namespace dd {
                 COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO,
                 COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE};
         identity.at(5 * leva + leva) = COMPLEX_ZERO;
-        identity.at(5 * leva + levb) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
-        identity.at(5 * levb + leva) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(5 * leva + levb) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(5 * levb + leva) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
         identity.at(5 * levb + levb) = COMPLEX_ZERO;
         return identity;
     }
