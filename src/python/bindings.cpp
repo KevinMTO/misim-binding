@@ -242,11 +242,11 @@ Circuit_info readCircuit(py::object &circ) {
 	        auto ctrlStates = controls_data.attr("ctrl_states").cast<std::vector<dd::Control::Type>>();
             std::cout << "Control Indices   "<< std::endl;
             for (const auto& elem : indices) {
-                std::cout << elem << std::endl;
+                std::cout << static_cast<int>(elem) << std::endl;
             }
             std::cout << "Control Levels   "<< std::endl;
             for (const auto& elem : ctrlStates) {
-                std::cout << elem << std::endl;
+                std::cout << static_cast<int>(elem) << std::endl;
             }
 	         control_set = std::make_tuple(indices, ctrlStates);
         }
