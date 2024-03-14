@@ -482,6 +482,16 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             const dd::Control c{ctrlQudits.at(i), ctrlLevels.at(i)};
             controlSet.insert(c);
         }
+        std::cout << "Control Indices   "<< std::endl;
+        for (const auto& elem : ctrlQudits) {
+            std::cout << elem << std::endl;
+        }
+        std::cout << "Control Levels   "<< std::endl;
+        for (const auto& elem : ctrlLevels) {
+            std::cout << elem << std::endl;
+        }
+
+
     }
     //std::cout << "selecting   "<< std::endl;
     if (tag == "rxy") {
@@ -712,12 +722,12 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
     //std::cout << "======================================================"<< std::endl;
 
-    printCircuit(std::get<2>(parsedCircuitInfo));
+    //printCircuit(std::get<2>(parsedCircuitInfo));
     noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
 
     //std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
 
-    printCircuit(noisyCircuit);
+    //printCircuit(noisyCircuit);
 
 
 
