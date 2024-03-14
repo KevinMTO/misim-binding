@@ -500,6 +500,11 @@ namespace dd {
                         " qubits. Please allocate a larger package instance.");
             }
             std::cout<< "INSIDE THE MONSTER" << std::endl;
+            std::cout << "Control Indices   "<< std::endl;
+            for (const auto& [reg, lev]: controls) {
+                std::cout << reg <<" levs now "<< lev << std::endl;
+            }
+
             auto targetRadix = registersSizes.at(static_cast<std::size_t>(target));
 
             auto               edges = targetRadix * targetRadix;
