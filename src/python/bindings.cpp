@@ -477,9 +477,9 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
     auto numberRegs= static_cast<dd::QuantumRegisterCount>(dd->numberOfQuantumRegisters);
 
     dd::QuantumRegister tq = 0;
-    if(gate_type=="SINGLE"){
-         tq = static_cast<dd::QuantumRegister>(target_qudits.at(0));
-    }
+    //if(gate_type=="SINGLE"){
+    tq = static_cast<dd::QuantumRegister>(target_qudits.at(0));
+    //}
 
     std::cout<< "Just before controls" << std::endl;
     dd::Controls controlSet{};
