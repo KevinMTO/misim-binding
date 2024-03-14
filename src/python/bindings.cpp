@@ -238,17 +238,17 @@ Circuit_info readCircuit(py::object &circ) {
         else{
             std::cout << "controls are full"<< std::endl;
             py::object controls_data = obj.attr("_controls_data");
-	        std::vector<dd::QuantumRegister> indices = controls_data.attr("indices").cast<std::vector<dd::QuantumRegister>>();
-	        std::vector<dd::Control::Type> ctrl_states = controls_data.attr("ctrl_states").cast<std::vector<dd::Control::Type>>();
+	        auto indices = controls_data.attr("indices").cast<std::vector<dd::QuantumRegister>>();
+	        auto ctrlStates = controls_data.attr("ctrl_states").cast<std::vector<dd::Control::Type>>();
             std::cout << "Control Indices   "<< std::endl;
             for (const auto& elem : indices) {
                 std::cout << elem << std::endl;
             }
             std::cout << "Control Levels   "<< std::endl;
-            for (const auto& elem : ctrl_states) {
+            for (const auto& elem : ctrlStates) {
                 std::cout << elem << std::endl;
             }
-	         control_set = std::make_tuple(indices, ctrl_states);
+	         control_set = std::make_tuple(indices, ctrlStates);
         }
         
         result.push_back(std::make_tuple(tag, dagger, dims, gate_type, target_qudits, params, control_set));
