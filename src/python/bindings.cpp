@@ -687,7 +687,7 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
         dd::MDDPackage::mEdge gate = getGate(dd, instruction);
         dd->getVectorizedMatrix(gate);
         //std::cout << "EPPAAAAAAAAAAAA "<< std::endl;
-	    psi = dd->multiply(psi, gate);
+	    psi = dd->multiply(gate, psi);
           
     }
     //std::cout << "STATE WITH ENCODING "<< std::endl;
