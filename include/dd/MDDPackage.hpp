@@ -527,7 +527,7 @@ namespace dd {
                             if (rowMat == colMat) {
                                 for (auto i = 0U; i < radix; i++) {
                                     auto diagInd = i * radix + i;
-
+                                    std::cout << "making contrls 1   "<< std::endl;
                                     if (i == currentControl->type) {
                                         quadEdges.at(diagInd) = edgesMat.at(entryPos);
                                     } else {
@@ -566,6 +566,7 @@ namespace dd {
                 std::vector<mEdge> nextEdges(nextRadix * nextRadix, mEdge::zero);
 
                 if (currentControl != controls.end() && currentControl->quantumRegister == nextReg) {
+                    std::cout << "making contrls 2   "<< std::endl;
                     for (auto i = 0U; i < nextRadix; i++) {
                         auto diagInd = i * nextRadix + i;
                         if (i == currentControl->type) {
