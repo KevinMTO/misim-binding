@@ -233,14 +233,21 @@ Circuit_info readCircuit(py::object &circ) {
         
         std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>> control_set = {};
         if (is_none_or_empty(obj.attr("_controls_data"))){
-        	        
-        	        //std::cout << "control true"<< std::endl;
+            std::cout << "control empty"<< std::endl;
         }
         else{
-            //std::cout << "control false"<< std::endl;
+            std::cout << "controls are full"<< std::endl;
             py::object controls_data = obj.attr("_controls_data");
 	        std::vector<dd::QuantumRegister> indices = controls_data.attr("indices").cast<std::vector<dd::QuantumRegister>>();
 	        std::vector<dd::Control::Type> ctrl_states = controls_data.attr("ctrl_states").cast<std::vector<dd::Control::Type>>();
+            std::cout << "Control Indices   "<< std::endl;
+            for (const auto& elem : indices) {
+                std::cout << elem << std::endl;
+            }
+            std::cout << "Control Levels   "<< std::endl;
+            for (const auto& elem : ctrl_states) {
+                std::cout << elem << std::endl;
+            }
 	         control_set = std::make_tuple(indices, ctrl_states);
         }
         
