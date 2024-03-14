@@ -690,6 +690,8 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
 	    psi = dd->multiply(gate, psi);
           
     }
+    std::cout << "STATE WITH ENCODING "<< std::endl;
+    dd->printVector(psi);
     return dd->getVector(psi);
 }
 
