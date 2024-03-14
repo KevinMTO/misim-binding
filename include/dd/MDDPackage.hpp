@@ -499,7 +499,7 @@ namespace dd {
                         std::to_string(numberOfQuantumRegisters) +
                         " qubits. Please allocate a larger package instance.");
             }
-
+            std::cout<< "INSIDE THE MONSTER" << std::endl;
             auto targetRadix = registersSizes.at(static_cast<std::size_t>(target));
 
             auto               edges = targetRadix * targetRadix;
