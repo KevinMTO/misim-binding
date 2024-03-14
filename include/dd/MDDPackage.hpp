@@ -509,6 +509,7 @@ namespace dd {
             auto targetRadix = registersSizes.at(static_cast<std::size_t>(target));
             std::cout<< "Started" << std::endl;
             auto               edges = targetRadix * targetRadix;
+            std::cout<< "edges  "<< edges << std::endl;
             std::vector<mEdge> edgesMat(edges, mEdge::zero);
 
             auto currentControl = controls.begin();
