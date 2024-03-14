@@ -501,8 +501,8 @@ namespace dd {
             }
             std::cout<< "INSIDE THE MONSTER" << std::endl;
             std::cout << "Control Indices   "<< std::endl;
-            for (const auto& [reg, lev]: controls) {
-                std::cout << reg <<" levs now "<< lev << std::endl;
+            for (const auto& cc: controls) {
+                std::cout << cc.quantumRegister <<" levs now "<< cc.type << std::endl;
             }
 
             auto targetRadix = registersSizes.at(static_cast<std::size_t>(target));
