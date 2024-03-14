@@ -687,7 +687,7 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
         dd::MDDPackage::mEdge gate = getGate(dd, instruction);
         dd->getVectorizedMatrix(gate);
         //std::cout << "EPPAAAAAAAAAAAA "<< std::endl;
-	    psi = dd->multiply(gate, psi);
+	    psi = dd->multiply(psi, gate);
           
     }
     //std::cout << "STATE WITH ENCODING "<< std::endl;
@@ -705,20 +705,20 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
     Circuit noisyCircuit = original_circuit;
 
 	//std::cout << "simsimsimsimsims"<< std::endl;
-    if (py::none() == noiseModel) {
-        py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
-        NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
-        //printNoiseModel(newNoiseModel);
 
-        //std::cout << "======================================================"<< std::endl;
+    py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
+    NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
+    //printNoiseModel(newNoiseModel);
 
-        printCircuit(std::get<2>(parsedCircuitInfo));
-        Circuit noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
+    //std::cout << "======================================================"<< std::endl;
 
-        //std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
+    printCircuit(std::get<2>(parsedCircuitInfo));
+    noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
 
-        printCircuit(noisyCircuit);
-    }
+    //std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
+
+    printCircuit(noisyCircuit);
+
 
 
 	//std::cout << "===================DD SIMULATION======================"<< std::endl;
