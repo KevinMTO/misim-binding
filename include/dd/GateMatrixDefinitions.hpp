@@ -377,7 +377,7 @@ namespace dd {
                 COMPLEX_ONE};
         identity.at(4 * leva + leva) = dd::ComplexValue{std::cos(theta / 2.), 0.};
         identity.at(4 * levb + leva) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
-        identity.at(4 * leva + levb) == dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(4 * leva + levb) = dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
         identity.at(4 * levb + levb) = dd::ComplexValue{std::cos(theta / 2.), 0.};
         return identity;
     }
