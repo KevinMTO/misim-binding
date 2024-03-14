@@ -507,22 +507,24 @@ namespace dd {
             }
 
             auto targetRadix = registersSizes.at(static_cast<std::size_t>(target));
-
+            std::cout<< "Started" << std::endl;
             auto               edges = targetRadix * targetRadix;
             std::vector<mEdge> edgesMat(edges, mEdge::zero);
 
             auto currentControl = controls.begin();
+
 
             for (auto i = 0U; i < edges; ++i) {
                 if (mat.at(i).r != 0 || mat.at(i).i != 0) {
                     edgesMat.at(i) = mEdge::terminal(complexNumber.lookup(mat.at(i)));
                 }
             }
+            std::cout<< "made gate dd" << std::endl;
             auto currentReg = static_cast<QuantumRegister>(start);
             // process lines below target
             for (; currentReg < target; currentReg++) {
                 auto radix = registersSizes.at(static_cast<std::size_t>(currentReg));
-
+                std::cout<< "running lines" << std::endl;
                 for (auto rowMat = 0U; rowMat < targetRadix; ++rowMat) {
                     for (auto colMat = 0U; colMat < targetRadix; ++colMat) {
                         auto entryPos = (rowMat * targetRadix) + colMat;
@@ -546,7 +548,7 @@ namespace dd {
                             edgesMat.at(entryPos) = makeDDNode(currentReg, quadEdges);
 
                         } else { // not connected
-
+                            std::cout<< "not control below target" << std::endl;
                             for (auto iD = 0U; iD < radix; iD++) {
                                 quadEdges.at(iD * radix + iD) = edgesMat.at(entryPos);
                             }
@@ -586,11 +588,13 @@ namespace dd {
 
                 } else { // not connected
                     for (auto iD = 0U; iD < nextRadix; iD++) {
+                        std::cout<< "not control above target" << std::endl;
                         nextEdges.at(iD * nextRadix + iD) = targetNodeEdge;
                     }
                 }
                 targetNodeEdge = makeDDNode(nextReg, nextEdges);
             }
+            std::cout<< "GOT OUT OF  THE MONSTER" << std::endl;
             return targetNodeEdge;
         }
 
