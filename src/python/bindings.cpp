@@ -481,10 +481,12 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
          tq = static_cast<dd::QuantumRegister>(target_qudits.at(0));
     }
 
+    std::cout<< "Just before controls" << std::endl;
     dd::Controls controlSet{};
-    if (!(std::get<0>(control_set).empty()) && (std::get<1>(control_set).empty()) ) {
+    if ( (std::get<0>(control_set).size()>0) && (std::get<1>(control_set).size()>0) ) {
         std::vector<dd::QuantumRegister> ctrlQudits = std::get<0>(control_set);
         std::vector<dd::Control::Type> ctrlLevels = std::get<1>(control_set);
+        std::cout <<" inside control maker" <<std::endl;
         for( uint i=0; i < ctrlQudits.size(); i++){
             const dd::Control c{ctrlQudits.at(i), ctrlLevels.at(i)};
             controlSet.insert(c);

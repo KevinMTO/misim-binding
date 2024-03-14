@@ -502,6 +502,7 @@ namespace dd {
             std::cout<< "INSIDE THE MONSTER" << std::endl;
             std::cout << "Control Indices   "<< std::endl;
             for (const auto& cc: controls) {
+                std::cout<< "Yo" << std::endl;
                 std::cout << cc.quantumRegister <<" levs now "<< cc.type << std::endl;
             }
 
