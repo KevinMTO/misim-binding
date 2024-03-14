@@ -723,7 +723,7 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
     Circuit noisyCircuit = original_circuit;
 
-	//std::cout << "simsimsimsimsims"<< std::endl;
+	std::cout << "simsimsimsimsims"<< std::endl;
 
     py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
     NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
@@ -731,7 +731,7 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
     //std::cout << "======================================================"<< std::endl;
 
-    //printCircuit(std::get<2>(parsedCircuitInfo));
+    printCircuit(std::get<2>(parsedCircuitInfo));
     noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
 
     //std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
@@ -740,7 +740,7 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
 
 
-	//std::cout << "===================DD SIMULATION======================"<< std::endl;
+	std::cout << "===================DD SIMULATION======================"<< std::endl;
 
     //std::tuple<std::basic_string<char>, bool, std::vector<int>, std::basic_string<char>,
     // std::vector<int>, pybind11::object, std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>>
