@@ -582,6 +582,7 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
     } else if (tag == "x") {
+        std::cout << "Making an X"<<std::endl;
         if (checkDim(dims, 2)) {
             dd::GateMatrix matrix = dd::Xmat;
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
@@ -593,6 +594,7 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
 
         } else if (checkDim(dims, 4)) {
             // Handle rxy tag with dimension 4
+            std::cout << "Making an X 4"<<std::endl;
             dd::QuartMatrix matrix = dd::X4;
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
