@@ -473,6 +473,20 @@ using ddpkg = std::unique_ptr<dd::MDDPackage>;
 dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
     //std::cout << "getting your op "<< std::endl;
 	const auto& [tag, dag, dims, gate_type, target_qudits, params, control_set] = instruction;
+    std::cout<< "tag" << tag << std::endl;
+    if(gate_type=="SINGLE"){
+        std::cout<< "target_qudits" << target_qudits.at(0) << std::endl;
+        if(tag=="rxy"){
+            auto pl = params.cast<py::list>();
+            auto leva = pl[0].cast<size_t>();
+            auto levb = pl[1].cast<size_t>();
+            auto theta = pl[2].cast<double>();
+            auto phi = pl[3].cast<double>();
+            std::cout<<leva<< " "<< levb<< " "<< theta<< std::endl;
+        }
+    }
+
+
     dd::MDDPackage::mEdge gate;
     auto numberRegs= static_cast<dd::QuantumRegisterCount>(dd->numberOfQuantumRegisters);
 
@@ -715,7 +729,7 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
         }
 
         //dd->getVectorizedMatrix(gate);
-        //std::cout << "EPPAAAAAAAAAAAA "<< std::endl;
+
 
           
     }
