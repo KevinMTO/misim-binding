@@ -707,7 +707,8 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
     for (const Instruction& instruction : circuit) {
         dd::MDDPackage::mEdge gate;
         try {
-            dd::MDDPackage::mEdge gate = getGate(dd, instruction);
+            gate = getGate(dd, instruction);
+            psi = dd->multiply(gate, psi);
         } catch (const std::exception& e) {
             std::cerr << "Caught exception in function1: " << e.what() << std::endl;
             throw; // Re-throw the exception to propagate it further
@@ -715,7 +716,7 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
 
         //dd->getVectorizedMatrix(gate);
         //std::cout << "EPPAAAAAAAAAAAA "<< std::endl;
-	    psi = dd->multiply(gate, psi);
+
           
     }
     //std::cout << "STATE WITH ENCODING "<< std::endl;
