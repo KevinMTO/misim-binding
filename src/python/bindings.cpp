@@ -705,7 +705,14 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
     auto psi = dd->makeZeroState(numLines);
     //std::cout << "going to loop "<< std::endl;
     for (const Instruction& instruction : circuit) {
-        dd::MDDPackage::mEdge gate = getGate(dd, instruction);
+        dd::MDDPackage::mEdge gate;
+        try {
+            dd::MDDPackage::mEdge gate = getGate(dd, instruction);
+        } catch (const std::exception& e) {
+            std::cerr << "Caught exception in function1: " << e.what() << std::endl;
+            throw; // Re-throw the exception to propagate it further
+        }
+
         //dd->getVectorizedMatrix(gate);
         //std::cout << "EPPAAAAAAAAAAAA "<< std::endl;
 	    psi = dd->multiply(gate, psi);
