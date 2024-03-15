@@ -473,6 +473,7 @@ using ddpkg = std::unique_ptr<dd::MDDPackage>;
 dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
     //std::cout << "getting your op "<< std::endl;
 	const auto& [tag, dag, dims, gate_type, target_qudits, params, control_set] = instruction;
+    /*
     std::cout<< "tag" << tag << std::endl;
     if(gate_type=="SINGLE"){
         std::cout<< "target_qudits" << target_qudits.at(0) << std::endl;
@@ -486,7 +487,7 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             std::cout<<leva<< " "<< levb<< " "<< theta<< std::endl;
         }
     }
-
+    */
 
     dd::MDDPackage::mEdge gate;
     auto numberRegs= static_cast<dd::QuantumRegisterCount>(dd->numberOfQuantumRegisters);
