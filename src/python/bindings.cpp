@@ -233,20 +233,20 @@ Circuit_info readCircuit(py::object &circ) {
         
         std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>> control_set = {};
         if (is_none_or_empty(obj.attr("_controls_data"))){
-            std::cout << "control empty"<< std::endl;
+            // std::cout << "control empty"<< std::endl;
         }
         else{
-            std::cout << "controls are full"<< std::endl;
+            // std::cout << "controls are full"<< std::endl;
             py::object controls_data = obj.attr("_controls_data");
 	        auto indices = controls_data.attr("indices").cast<std::vector<dd::QuantumRegister>>();
 	        auto ctrlStates = controls_data.attr("ctrl_states").cast<std::vector<dd::Control::Type>>();
-            std::cout << "Control Indices   "<< std::endl;
+            // std::cout << "Control Indices   "<< std::endl;
             for (const auto& elem : indices) {
-                std::cout << static_cast<int>(elem) << std::endl;
+                // std::cout << static_cast<int>(elem) << std::endl;
             }
-            std::cout << "Control Levels   "<< std::endl;
+            // std::cout << "Control Levels   "<< std::endl;
             for (const auto& elem : ctrlStates) {
-                std::cout << static_cast<int>(elem) << std::endl;
+                // std::cout << static_cast<int>(elem) << std::endl;
             }
 	         control_set = std::make_tuple(indices, ctrlStates);
         }
@@ -481,23 +481,23 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
     tq = static_cast<dd::QuantumRegister>(target_qudits.at(0));
     //}
 
-    std::cout<< "Just before controls" << std::endl;
+    // std::cout<< "Just before controls" << std::endl;
     dd::Controls controlSet{};
     if ( (std::get<0>(control_set).size()>0) && (std::get<1>(control_set).size()>0) ) {
         std::vector<dd::QuantumRegister> ctrlQudits = std::get<0>(control_set);
         std::vector<dd::Control::Type> ctrlLevels = std::get<1>(control_set);
-        std::cout <<" inside control maker" <<std::endl;
+        // std::cout <<" inside control maker" <<std::endl;
         for( uint i=0; i < ctrlQudits.size(); i++){
             const dd::Control c{ctrlQudits.at(i), ctrlLevels.at(i)};
             controlSet.insert(c);
         }
-        std::cout << "Control Indices   "<< std::endl;
+        // std::cout << "Control Indices   "<< std::endl;
         for (const auto& elem : ctrlQudits) {
-            std::cout << elem << std::endl;
+            // std::cout << elem << std::endl;
         }
-        std::cout << "Control Levels   "<< std::endl;
+        // std::cout << "Control Levels   "<< std::endl;
         for (const auto& elem : ctrlLevels) {
-            std::cout << elem << std::endl;
+            // std::cout << elem << std::endl;
         }
 
 
@@ -582,7 +582,7 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
     } else if (tag == "x") {
-        std::cout << "Making an X"<<std::endl;
+        // std::cout << "Making an X"<<std::endl;
         if (checkDim(dims, 2)) {
             dd::GateMatrix matrix = dd::Xmat;
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
@@ -594,7 +594,7 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
 
         } else if (checkDim(dims, 4)) {
             // Handle rxy tag with dimension 4
-            std::cout << "Making an X 4"<<std::endl;
+            // std::cout << "Making an X 4"<<std::endl;
             dd::QuartMatrix matrix = dd::X4;
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
@@ -725,7 +725,7 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
     Circuit noisyCircuit = original_circuit;
 
-	std::cout << "simsimsimsimsims"<< std::endl;
+	// std::cout << "simsimsimsimsims"<< std::endl;
 
     py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
     NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
@@ -733,7 +733,7 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
     //std::cout << "======================================================"<< std::endl;
 
-    printCircuit(std::get<2>(parsedCircuitInfo));
+    //printCircuit(std::get<2>(parsedCircuitInfo));
     noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
 
     //std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
@@ -742,7 +742,7 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
 
 
-	std::cout << "===================DD SIMULATION======================"<< std::endl;
+	//std::cout << "===================DD SIMULATION======================"<< std::endl;
 
     //std::tuple<std::basic_string<char>, bool, std::vector<int>, std::basic_string<char>,
     // std::vector<int>, pybind11::object, std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>>
