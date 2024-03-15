@@ -706,13 +706,13 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
     //std::cout << "going to loop "<< std::endl;
     for (const Instruction& instruction : circuit) {
         dd::MDDPackage::mEdge gate = getGate(dd, instruction);
-        dd->getVectorizedMatrix(gate);
+        //dd->getVectorizedMatrix(gate);
         //std::cout << "EPPAAAAAAAAAAAA "<< std::endl;
 	    psi = dd->multiply(gate, psi);
           
     }
     //std::cout << "STATE WITH ENCODING "<< std::endl;
-    dd->printVector(psi);
+    //dd->printVector(psi);
     return dd->getVector(psi);
 }
 
