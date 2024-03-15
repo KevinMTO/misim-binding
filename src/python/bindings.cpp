@@ -476,6 +476,7 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
     std::cout<< "tag" << tag << std::endl;
     if(gate_type=="SINGLE"){
         std::cout<< "target_qudits" << target_qudits.at(0) << std::endl;
+        std::cout<< "dim" << dims.at(0) << std::endl;
         if(tag=="rxy"){
             auto pl = params.cast<py::list>();
             auto leva = pl[0].cast<size_t>();
