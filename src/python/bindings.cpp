@@ -328,6 +328,8 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
         }
 
         if (noiseModel.find(tag) != noiseModel.end()) {
+            std::cout << "Operation has a noise associated!  "<< std::endl;
+            std::cout << "Or operation is not at the end   "<< std::endl;
             for (const auto& mode_noise : noiseModel.at(tag)) {
                 auto mode = mode_noise.first;
                 auto noise_info = mode_noise.second;
@@ -339,8 +341,8 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 
                 int x_choice = x_dist(gen);
                 int z_choice = z_dist(gen);
-                //std::cout << "X CHOICE  "<< x_choice<< std::endl;
-                //std::cout << "Z CHOICE  "<< z_choice<< std::endl;
+                std::cout << "X CHOICE  "<< x_choice<< std::endl;
+                std::cout << "Z CHOICE  "<< z_choice<< std::endl;
 
                 if (x_choice == 1 || z_choice == 1) {
                     //std::cout << "DAYUUM  "<< std::endl;
@@ -348,11 +350,11 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                     std::vector<int> qudits;
 
                     if (std::holds_alternative<std::vector<int>>(mode)) {
-                        //std::cout << "qudits is int vec  "<< std::endl;
+                        std::cout << "qudits is int vec  "<< std::endl;
                         qudits = std::get<std::vector<int>>(mode);
 
                     } else if (std::holds_alternative<std::string>(mode)) {
-                        //std::cout << "string mode "<< std::endl;
+                        std::cout << "string mode "<< std::endl;
                         std::string mode_str = std::get<std::string>(mode);
                         if (mode_str == "local") {
                             qudits = referenceLines;
@@ -374,6 +376,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                     if (x_choice == 1) {
                         for (auto dit : qudits) {
                             if (tag == "rxy" || tag == "rz" || tag == "virtrz") {
+                                std::cout << "rx getting applied   "<< std::endl;
                                 py::list params_new;
 
                                 // Retrieve field 0 and 1 from params
@@ -396,6 +399,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                                 Instruction new_inst = std::make_tuple("rxy", false, dims, "SINGLE", std::vector<int>{dit}, py::cast<py::object>(params_new), std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
                                 noisyCircuit.push_back(new_inst);
                             } else {
+                                std::cout << "X getting applied   "<< std::endl;
                                 py::object params_new;
 
                                 // Construct params_new for other gates (e.g., x)
@@ -409,6 +413,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                     if (z_choice == 1) {
                         for (auto dit : qudits) {
                             if (tag == "rxy" || tag == "rz" || tag == "virtrz") {
+                                std::cout << "rz getting applied   "<< std::endl;
                                 py::list params_new;
 
                                 // Retrieve field 0 and 1 from params
@@ -429,6 +434,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                                 Instruction newInst = std::make_tuple("rz", false, dims, "SINGLE", std::vector<int>{dit}, py::cast<py::object>(params_new), std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
                                 noisyCircuit.push_back(newInst);
                             } else {
+                                std::cout << "Z getting applied   "<< std::endl;
                                 py::object paramsNew;
 
                                 // Construct params_new for other gates (e.g., z)
@@ -440,6 +446,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                     }
                 }
             }
+            std::cout << "next turn "<< std::endl;
         }
     }
 
