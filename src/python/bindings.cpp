@@ -374,6 +374,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                             qudits.push_back(target_qudits.at(1));
                         }
                     }
+                    /*
                     std::vector<int> dims;
                     for (int index : qudits) {
                         // Check if index is valid
@@ -381,11 +382,15 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                             dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(index)]));
                         }
                     }
+                     */
 
                     if (x_choice == 1) {
                         for (auto dit : qudits) {
                             if (tag == "rxy" || tag == "rz" || tag == "virtrz") {
                                 std::cout << "rx getting applied   "<< std::endl;
+                                std::vector<int> dims;
+                                dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(dit)]));
+
                                 py::list params_new;
 
                                 // Retrieve field 0 and 1 from params
@@ -411,6 +416,9 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                                 std::cout << "X getting applied   "<< std::endl;
                                 py::object params_new;
 
+                                std::vector<int> dims;
+                                dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(dit)]));
+
                                 // Construct params_new for other gates (e.g., x)
                                 // Example: params_new = some_value;
                                 std::cout << "Construction of X  "<< std::endl;
@@ -426,6 +434,9 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                             if (tag == "rxy" || tag == "rz" || tag == "virtrz") {
                                 std::cout << "rz getting applied   "<< std::endl;
                                 py::list params_new;
+
+                                std::vector<int> dims;
+                                dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(dit)]));
 
                                 // Retrieve field 0 and 1 from params
                                 py::object field_0 = params.attr("__getitem__")(0);
@@ -447,6 +458,9 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                             } else {
                                 std::cout << "Z getting applied   "<< std::endl;
                                 py::object paramsNew;
+
+                                std::vector<int> dims;
+                                dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(dit)]));
 
                                 // Construct params_new for other gates (e.g., z)
                                 // Example: params_new = some_value;
