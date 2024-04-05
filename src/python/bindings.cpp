@@ -346,7 +346,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                 std::cout << "Z CHOICE  "<< z_choice<< std::endl;
 
                 if (x_choice == 1 || z_choice == 1) {
-                    //std::cout << "DAYUUM  "<< std::endl;
+                    std::cout << "entering choice  "<< std::endl;
 
                     std::vector<int> qudits;
 
@@ -736,11 +736,17 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
         dd::MDDPackage::mEdge gate;
         try {
             gate = getGate(dd, instruction);
-            psi = dd->multiply(gate, psi);
         } catch (const std::exception& e) {
-            std::cerr << "Caught exception in function1: " << e.what() << std::endl;
+            std::cerr << "Caught exception in gate creation: " << e.what() << std::endl;
             throw; // Re-throw the exception to propagate it further
         }
+        try {
+            psi = dd->multiply(gate, psi);
+        } catch (const std::exception& e) {
+            std::cerr << "Problem is in multiplication " << e.what() << std::endl;
+            throw; // Re-throw the exception to propagate it further
+        }
+
 
         //dd->getVectorizedMatrix(gate);
 
@@ -759,7 +765,7 @@ py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
     pid_t pid = getpid();
     std::cout << "PID: " << pid << std::endl;
 
-    
+
 //py::list stateVectorSimulation(){
     //std::cout << "INSIDE" << std::endl;
 	auto parsedCircuitInfo = readCircuit(circ);
