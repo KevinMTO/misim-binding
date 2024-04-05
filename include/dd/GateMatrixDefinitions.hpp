@@ -719,30 +719,35 @@ namespace dd {
                           COMPLEX_SQRT6_6,
                           COMPLEX_SQRT6_6,
                           COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6,
 
                           COMPLEX_SQRT6_6,
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(2. * PI / 6.), std::sin(2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(2. * 2. * PI / 6.), std::sin(2. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(3. * 2. * PI / 6.), std::sin(3. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(4. * 2. * PI / 6.), std::sin(4. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(5. * 2. * PI / 6.), std::sin(5. * 2. * PI / 6.)},
 
                           COMPLEX_SQRT6_6,
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(2. * 2. * PI / 6.), std::sin(2. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(4. * 2. * PI / 6.), std::sin(4. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(6. * 2. * PI / 6.), std::sin(6. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(8. * 2. * PI / 6.), std::sin(8. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(10. * 2. * PI / 6.), std::sin(10. * 2. * PI / 6.)},
 
                           COMPLEX_SQRT6_6,
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(3. * 2. * PI / 6.), std::sin(3. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(6. * 2. * PI / 6.), std::sin(6. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(9. * 2. * PI / 6.), std::sin(9. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(12. * 2. * PI / 6.), std::sin(12. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(15. * 2. * PI / 6.), std::sin(15. * 2. * PI / 6.)},
 
                           COMPLEX_SQRT6_6,
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(4. * 2. * PI / 6.), std::sin(4. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(8. * 2. * PI / 6.), std::sin(8. * 2. * PI / 6.)},
                           COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(12. * 2. * PI / 6.), std::sin(12. * 2. * PI / 6.)},
-                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(16. * 2. * PI / 6.), std::sin(16. * 2. * PI / 6.)}};
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(16. * 2. * PI / 6.), std::sin(16. * 2. * PI / 6.)},
+                        COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(20. * 2. * PI / 6.), std::sin(20. * 2. * PI / 6.)}};
     }
 
     inline SextMatrix RXY6(fp theta, fp phi, size_t leva, size_t levb) {
