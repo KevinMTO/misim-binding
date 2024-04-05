@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/complex.h>
+#include <unistd.h>
 #include <iostream>
 #include <ctime>
 #include <random>
@@ -329,7 +330,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 
         if (noiseModel.find(tag) != noiseModel.end()) {
             std::cout << "Operation has a noise associated!  "<< std::endl;
-            std::cout << "Or operation is not at the end   "<< std::endl;
+
             for (const auto& mode_noise : noiseModel.at(tag)) {
                 auto mode = mode_noise.first;
                 auto noise_info = mode_noise.second;
@@ -753,6 +754,12 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
 
 
 py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
+
+
+    pid_t pid = getpid();
+    std::cout << "PID: " << pid << std::endl;
+
+    
 //py::list stateVectorSimulation(){
     //std::cout << "INSIDE" << std::endl;
 	auto parsedCircuitInfo = readCircuit(circ);
