@@ -404,7 +404,9 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 
                                 // Construct params_new for other gates (e.g., x)
                                 // Example: params_new = some_value;
+                                std::cout << "Construction of X  "<< std::endl;
                                 Instruction new_inst = std::make_tuple("x", false, dims, "SINGLE", std::vector<int>{dit}, params_new, std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
+                                std::cout << "Here it is X  "<< std::endl;
                                 noisyCircuit.push_back(new_inst);
                             }
                         }
@@ -439,7 +441,9 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 
                                 // Construct params_new for other gates (e.g., z)
                                 // Example: params_new = some_value;
+                                std::cout << "Construction of Z  "<< std::endl;
                                 Instruction newInst = std::make_tuple("z", false, dims, "SINGLE", std::vector<int>{dit}, paramsNew, std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
+                                std::cout << "Here is Z  "<< std::endl;
                                 noisyCircuit.push_back(newInst);
                             }
                         }
