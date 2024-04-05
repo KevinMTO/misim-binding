@@ -744,6 +744,7 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
 
             psi = dd->multiply(gate, psi);
         } catch (const std::exception& e) {
+            printCircuit(circuit);
             std::cout << "THE MATRIX  " << std::endl;
             dd->getVectorizedMatrix(gate);
             std::cout << "THE VECTOR  " << std::endl;
