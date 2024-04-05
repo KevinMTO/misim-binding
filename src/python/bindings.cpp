@@ -316,7 +316,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
     for (const Instruction& instruction : circuit) {
         noisyCircuit.push_back(instruction);
 
-        const auto& [tag, dag, dims, gate_type, target_qudits, params, control_set] = instruction;
+        const auto& [tag, dag, dims_gate, gate_type, target_qudits, params, control_set] = instruction;
         std::vector<int> referenceLines(target_qudits.begin(), target_qudits.end());
 
         // If controls is not empty, add its first field to reference_lines
@@ -356,21 +356,29 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 
                     } else if (std::holds_alternative<std::string>(mode)) {
                         std::cout << "string mode "<< std::endl;
-                        std::string mode_str = std::get<std::string>(mode);
-                        if (mode_str == "local") {
+                        std::string modeStr = std::get<std::string>(mode);
+
+                        if (modeStr == "local") {
                             qudits = referenceLines;
-                        } else if (mode_str == "all") {
+                        } else if (modeStr == "all") {
                             for (int i = 0; i < num_qudits; ++i)
                                 qudits.push_back(i);
-                        } else if (mode_str == "nonlocal") {
+                        } else if (modeStr == "nonlocal") {
                             assert(gate_type == "TWO" || gate_type == "MULTI");
                             qudits = referenceLines;
-                        } else if (mode_str == "control") {
+                        } else if (modeStr == "control") {
                             assert(gate_type == "TWO");
                             qudits.push_back(target_qudits.at(0));
-                        } else if (mode_str == "target") {
+                        } else if (modeStr == "target") {
                             assert(gate_type == "TWO");
                             qudits.push_back(target_qudits.at(1));
+                        }
+                    }
+                    std::vector<int> dims;
+                    for (int index : qudits) {
+                        // Check if index is valid
+                        if (index >= 0 && index < num_qudits) {
+                            dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(index)]));
                         }
                     }
 
