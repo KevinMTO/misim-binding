@@ -580,6 +580,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::QuintMatrix matrix = dd::RXY5(theta, phi, leva, levb);
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 6)) {
+            // Handle rxy tag with dimension 5
+            dd::SextMatrix matrix = dd::RXY6(theta, phi, leva, levb);
+            gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
     } else if (tag == "rz") {
         auto pl = params.cast<py::list>();
 
@@ -606,6 +611,12 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::QuintMatrix matrix = dd::RZ5(phi, leva, levb);
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 6)) {
+            // Handle rxy tag with dimension 5
+            dd::SextMatrix matrix = dd::RZ6(phi, leva, levb);
+            gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
+
     } else if (tag == "virtrz") {
         auto pl = params.cast<py::list>();
 
@@ -631,6 +642,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::QuintMatrix matrix = dd::VirtRZ5(phi, leva);
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 6)) {
+            // Handle rxy tag with dimension 5
+            dd::SextMatrix matrix = dd::VirtRZ6(phi, leva);
+            gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
     } else if (tag == "x") {
         // std::cout << "Making an X"<<std::endl;
         if (checkDim(dims, 2)) {
@@ -653,6 +669,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::QuintMatrix matrix = dd::X5;
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 6)) {
+            // Handle rxy tag with dimension 5
+            dd::SextMatrix matrix = dd::X6;
+            gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
     } else if (tag == "s") {
         if (checkDim(dims, 2)) {
             dd::GateMatrix matrix = dd::Smat;
@@ -672,6 +693,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             // Handle rxy tag with dimension 5
             dd::QuintMatrix matrix = dd::S5();
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
+        }
+        else if (checkDim(dims, 6)) {
+            // Handle rxy tag with dimension 5
+            dd::SextMatrix matrix = dd::S6();
+            gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
     } else if (tag == "z") {
         if (checkDim(dims, 2)) {
@@ -693,6 +719,12 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::QuintMatrix matrix = dd::Z5();
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 6)) {
+            // Handle rxy tag with dimension 5
+            dd::SextMatrix matrix = dd::Z6();
+            gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
+
     } else if (tag == "h") {
         if (checkDim(dims, 2)) {
             dd::GateMatrix matrix = dd::H();
@@ -712,6 +744,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             // Handle rxy tag with dimension 5
             dd::QuintMatrix matrix = dd::H5();
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
+        }
+        else if (checkDim(dims, 6)) {
+            // Handle rxy tag with dimension 5
+            dd::SextMatrix matrix = dd::H6();
+            gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
     } else if (tag == "cx") {
         //std::cout << "IN cex "<< std::endl;

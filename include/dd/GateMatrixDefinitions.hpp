@@ -32,11 +32,15 @@ namespace dd {
     constexpr ComplexValue COMPLEX_SQRT3_3 = {SQRT3_3, 0.};
     constexpr ComplexValue COMPLEX_SQRT4_4 = {SQRT4_4, 0.};
     constexpr ComplexValue COMPLEX_SQRT5_5 = {SQRT5_5, 0.};
+    constexpr ComplexValue COMPLEX_SQRT6_6 = {SQRT6_6, 0.};
+    constexpr ComplexValue COMPLEX_SQRT7_7 = {SQRT7_7, 0.};
 
     using GateMatrix  = std::array<ComplexValue, EDGE2>;
     using TritMatrix  = std::array<ComplexValue, EDGE3>;
     using QuartMatrix = std::array<ComplexValue, EDGE4>;
     using QuintMatrix = std::array<ComplexValue, EDGE5>;
+    using SextMatrix  = std::array<ComplexValue, EDGE6>;
+    using SeptMatrix  = std::array<ComplexValue, EDGE7>;
 
     // NOLINTBEGIN(readability-identifier-naming) As these constants are used by other projects, we keep the naming
     constexpr GateMatrix Imat{COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE};
@@ -686,6 +690,167 @@ namespace dd {
         identity.at(5 * leva + levb) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
         identity.at(5 * levb + leva) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
         identity.at(5 * levb + levb) = COMPLEX_ZERO;
+        return identity;
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    constexpr SextMatrix I6{
+            COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+            COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO,
+            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO,
+            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE
+    };
+
+    inline SextMatrix Pi6(size_t i) {
+        SextMatrix zero   = {COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                            COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+        };
+        zero.at(i + i * 6) = COMPLEX_ONE;
+        return zero;
+    }
+    inline SextMatrix H6() {
+        return SextMatrix{COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6,
+
+                          COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(2. * PI / 6.), std::sin(2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(2. * 2. * PI / 6.), std::sin(2. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(3. * 2. * PI / 6.), std::sin(3. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(4. * 2. * PI / 6.), std::sin(4. * 2. * PI / 6.)},
+
+                          COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(2. * 2. * PI / 6.), std::sin(2. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(4. * 2. * PI / 6.), std::sin(4. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(6. * 2. * PI / 6.), std::sin(6. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(8. * 2. * PI / 6.), std::sin(8. * 2. * PI / 6.)},
+
+                          COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(3. * 2. * PI / 6.), std::sin(3. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(6. * 2. * PI / 6.), std::sin(6. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(9. * 2. * PI / 6.), std::sin(9. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(12. * 2. * PI / 6.), std::sin(12. * 2. * PI / 6.)},
+
+                          COMPLEX_SQRT6_6,
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(4. * 2. * PI / 6.), std::sin(4. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(8. * 2. * PI / 6.), std::sin(8. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(12. * 2. * PI / 6.), std::sin(12. * 2. * PI / 6.)},
+                          COMPLEX_SQRT6_6 * dd::ComplexValue{std::cos(16. * 2. * PI / 6.), std::sin(16. * 2. * PI / 6.)}};
+    }
+
+    inline SextMatrix RXY6(fp theta, fp phi, size_t leva, size_t levb) {
+        if (leva > levb or leva > 5 or levb > 5) {
+            throw std::invalid_argument("LEV A cannot be higher than  LEV B");
+        }
+        SextMatrix identity = I6;
+        identity.at(6 * leva + leva) = dd::ComplexValue{std::cos(theta / 2.), 0.};
+        identity.at(6 * levb + leva) = dd::ComplexValue{-std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(6 * leva + levb) = dd::ComplexValue{std::sin(theta / 2.) * std::sin(phi), -std::sin(theta / 2.) * std::cos(phi)};
+        identity.at(6 * levb + levb) = dd::ComplexValue{std::cos(theta / 2.), 0.};
+        return identity;
+    }
+
+    constexpr SextMatrix X6dag{
+            COMPLEX_ZERO,
+            COMPLEX_ONE,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ONE,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ONE,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ONE,
+            COMPLEX_ZERO,
+
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ONE,
+
+            COMPLEX_ONE,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO,
+            COMPLEX_ZERO
+    };
+
+    constexpr SextMatrix X6{COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE,
+                             COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                             COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                             COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO,
+                             COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO, COMPLEX_ZERO,
+                             COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ZERO, COMPLEX_ONE, COMPLEX_ZERO
+    };
+
+    inline SextMatrix RZ6(fp phi, size_t leva, size_t levb) {
+        if (leva > levb or leva > 5 or levb > 5) {
+            throw std::invalid_argument("LEV A cannot be higher than  LEV B");
+        }
+        SextMatrix identity = I6;
+        identity.at(6 * leva + leva) = dd::ComplexValue{std::cos(phi/2), -std::sin(phi/2)};
+        identity.at(6 * levb + levb) = dd::ComplexValue{std::cos(phi/2), +std::sin(phi/2)};
+        return identity;
+    }
+    inline SextMatrix VirtRZ6(fp phi, size_t i) {
+        SextMatrix identity = I6;
+        identity.at(i + i * 6) = dd::ComplexValue{std::cos(phi), -std::sin(phi)};
+        return identity;
+    }
+
+    inline SextMatrix Z6() {
+        SextMatrix id = I6;
+        for(int level = 0; level < 6; ++level) {
+            double angle = fmod(2.0 * level / 6, 2.0) * PI;
+            id.at(level + level * 6) = dd::ComplexValue {std::cos(angle), std::sin(angle)};
+        }
+
+        return id;
+    }
+    inline SextMatrix S6() {
+        SextMatrix id   = I6;
+        for (int level = 0; level < 6; ++level) {
+            double omegaArg = fmod(2.0 / 6 * level * (level + 1) / 2.0, 2.0);
+            dd::ComplexValue  omega = dd::ComplexValue{std::cos(omegaArg * PI), std::sin(omegaArg * PI)};
+            id.at(level + level * 6) = omega;
+        }
+        return id;
+    }
+    inline SextMatrix embX6(fp phi, size_t leva, size_t levb) {
+        if (leva > levb or leva > 5 or levb > 5) {
+            throw std::invalid_argument("LEV A cannot be higher than  LEV B");
+        }
+        SextMatrix identity = I6;
+        identity.at(6 * leva + leva) = COMPLEX_ZERO;
+        identity.at(6 * leva + levb) = dd::ComplexValue{ std::sin(phi), -std::cos(phi)};
+        identity.at(6 * levb + leva) = dd::ComplexValue{-std::sin(phi), -std::cos(phi)};
+        identity.at(6 * levb + levb) = COMPLEX_ZERO;
         return identity;
     }
 
