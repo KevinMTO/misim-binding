@@ -585,6 +585,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::SextMatrix matrix = dd::RXY6(theta, phi, leva, levb);
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 7)) {
+            // Handle rxy tag with dimension 5
+            dd::SeptMatrix matrix = dd::RXY7(theta, phi, leva, levb);
+            gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
+        }
     } else if (tag == "rz") {
         auto pl = params.cast<py::list>();
 
@@ -615,6 +620,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             // Handle rxy tag with dimension 5
             dd::SextMatrix matrix = dd::RZ6(phi, leva, levb);
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
+        else if (checkDim(dims, 7)) {
+            // Handle rxy tag with dimension 5
+            dd::SeptMatrix matrix = dd::RZ7(phi, leva, levb);
+            gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
 
     } else if (tag == "virtrz") {
@@ -647,6 +657,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::SextMatrix matrix = dd::VirtRZ6(phi, leva);
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 7)) {
+            // Handle rxy tag with dimension 5
+            dd::SeptMatrix matrix = dd::VirtRZ7(phi, leva);
+            gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
+        }
     } else if (tag == "x") {
         // std::cout << "Making an X"<<std::endl;
         if (checkDim(dims, 2)) {
@@ -674,6 +689,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::SextMatrix matrix = dd::X6;
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 7)) {
+            // Handle rxy tag with dimension 5
+            dd::SeptMatrix matrix = dd::X7;
+            gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
+        }
     } else if (tag == "s") {
         if (checkDim(dims, 2)) {
             dd::GateMatrix matrix = dd::Smat;
@@ -698,6 +718,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             // Handle rxy tag with dimension 5
             dd::SextMatrix matrix = dd::S6();
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
+        else if (checkDim(dims, 7)) {
+            // Handle rxy tag with dimension 5
+            dd::SeptMatrix matrix = dd::S7();
+            gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
     } else if (tag == "z") {
         if (checkDim(dims, 2)) {
@@ -724,6 +749,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             dd::SextMatrix matrix = dd::Z6();
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
+        else if (checkDim(dims, 7)) {
+            // Handle rxy tag with dimension 5
+            dd::SeptMatrix matrix = dd::Z7();
+            gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
+        }
 
     } else if (tag == "h") {
         if (checkDim(dims, 2)) {
@@ -749,6 +779,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             // Handle rxy tag with dimension 5
             dd::SextMatrix matrix = dd::H6();
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
+        }
+        else if (checkDim(dims, 7)) {
+            // Handle rxy tag with dimension 5
+            dd::SeptMatrix matrix = dd::H7();
+            gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
     } else if (tag == "cx") {
         //std::cout << "IN cex "<< std::endl;
