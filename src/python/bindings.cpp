@@ -802,10 +802,11 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
         try {
 
             psi = dd->multiply(gate, psi);
-        } catch (const std::exception& e) {
-            printCircuit(circuit);
             std::cout << "THE MATRIX  " << std::endl;
             dd->getVectorizedMatrix(gate);
+        } catch (const std::exception& e) {
+            printCircuit(circuit);
+
             std::cout << "THE VECTOR  " << std::endl;
             dd->printVector(psi);
             std::cerr << "Problem is in multiplication " << e.what() << std::endl;
