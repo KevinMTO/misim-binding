@@ -1059,7 +1059,7 @@ namespace dd {
         for (int level = 0; level < 7; ++level) {
             double omegaArg = fmod(2.0 / 7 * level * (level + 1) / 2.0, 2.0);
             dd::ComplexValue  omega = dd::ComplexValue{std::cos(omegaArg * PI), std::sin(omegaArg * PI)};
-            id.at(level + level * 6) = omega;
+            id.at(level + level * 7) = omega;
         }
         return id;
     }
