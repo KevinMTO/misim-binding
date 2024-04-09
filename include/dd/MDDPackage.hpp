@@ -1210,8 +1210,8 @@ namespace dd {
         mEdge CEX(QuantumRegisterCount numberRegs, dd::Control::Type level,
                          fp phi, size_t leva, size_t levb, QuantumRegister cReg, QuantumRegister target,
                          bool isDagger = false) {
-            std::cout << " cREG " << cReg <<std::endl;
-            std::cout << " target " << target <<std::endl;
+            //std::cout << " cREG " << cReg <<std::endl;
+            //std::cout << " target " << target <<std::endl;
 
             dd::Control control{cReg, level};
 

@@ -170,12 +170,9 @@ py::list complex_vector_to_list(const CVec& vec) {
 
 Circuit_info readCircuit(py::object &circ) {
     Circuit result;
-    //std::cout << "reading" << std::endl;
 
     unsigned int num_qudits = circ.attr("_num_qudits").cast<unsigned int>();
     std::vector<size_t> dimensions = circ.attr("_dimensions").cast<std::vector<size_t>>();
-    
-    //std::cout << "No need to store this string";
     
     bool result_empty = py::isinstance<py::none>(circ.attr("instructions"));
     //std::cout << "Is empty: " << std::boolalpha << result_empty << std::endl;
@@ -307,7 +304,7 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
     // Get current time in milliseconds
     auto currentTimeMs = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     const auto& [num_qudits, dimensions, circuit] = circuitInfo;
-    // Calculate seed
+
     std::random_device rd;
     std::mt19937_64 gen(rd() + currentTimeMs);
 
@@ -319,17 +316,14 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
         const auto& [tag, dag, dims_gate, gate_type, target_qudits, params, control_set] = instruction;
         std::vector<int> referenceLines(target_qudits.begin(), target_qudits.end());
 
-        // If controls is not empty, add its first field to reference_lines
         if (!(std::get<0>(control_set).empty()) && (std::get<1>(control_set).empty()) ) {
             auto [ctrl_dits, levels] = control_set; // Decompose the tuple
 
-            // Choose which vector to append to reference_lines based on your logic
-            // For example, appending control_vec1 here
             referenceLines.insert(referenceLines.end(), ctrl_dits.begin(), ctrl_dits.end());
         }
 
         if (noiseModel.find(tag) != noiseModel.end()) {
-            std::cout << "Operation has a noise associated!  "<< std::endl;
+            //std::cout << "Operation has a noise associated!  "<< std::endl;
 
             for (const auto& mode_noise : noiseModel.at(tag)) {
                 auto mode = mode_noise.first;
@@ -342,20 +336,18 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 
                 int x_choice = x_dist(gen);
                 int z_choice = z_dist(gen);
-                std::cout << "X CHOICE  "<< x_choice<< std::endl;
-                std::cout << "Z CHOICE  "<< z_choice<< std::endl;
+                //std::cout << "X CHOICE  "<< x_choice<< std::endl;
+                //std::cout << "Z CHOICE  "<< z_choice<< std::endl;
 
                 if (x_choice == 1 || z_choice == 1) {
-                    std::cout << "entering choice  "<< std::endl;
-
                     std::vector<int> qudits;
 
                     if (std::holds_alternative<std::vector<int>>(mode)) {
-                        std::cout << "qudits is int vec  "<< std::endl;
+                        //std::cout << "qudits is int vec  "<< std::endl;
                         qudits = std::get<std::vector<int>>(mode);
 
                     } else if (std::holds_alternative<std::string>(mode)) {
-                        std::cout << "string mode "<< std::endl;
+                        //std::cout << "string mode "<< std::endl;
                         std::string modeStr = std::get<std::string>(mode);
 
                         if (modeStr == "local") {
@@ -374,20 +366,10 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                             qudits.push_back(target_qudits.at(1));
                         }
                     }
-                    /*
-                    std::vector<int> dims;
-                    for (int index : qudits) {
-                        // Check if index is valid
-                        if (index >= 0 && index < num_qudits) {
-                            dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(index)]));
-                        }
-                    }
-                     */
 
                     if (x_choice == 1) {
                         for (auto dit : qudits) {
                             if (tag == "rxy" || tag == "rz" || tag == "virtrz") {
-                                std::cout << "rx getting applied   "<< std::endl;
                                 std::vector<int> dims;
                                 dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(dit)]));
 
@@ -413,17 +395,12 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                                 Instruction new_inst = std::make_tuple("rxy", false, dims, "SINGLE", std::vector<int>{dit}, py::cast<py::object>(params_new), std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
                                 noisyCircuit.push_back(new_inst);
                             } else {
-                                std::cout << "X getting applied   "<< std::endl;
                                 py::object params_new;
-
                                 std::vector<int> dims;
                                 dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(dit)]));
 
-                                // Construct params_new for other gates (e.g., x)
-                                // Example: params_new = some_value;
-                                std::cout << "Construction of X  "<< std::endl;
+
                                 Instruction new_inst = std::make_tuple("x", false, dims, "SINGLE", std::vector<int>{dit}, params_new, std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
-                                std::cout << "Here it is X  "<< std::endl;
                                 noisyCircuit.push_back(new_inst);
                             }
                         }
@@ -432,7 +409,6 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                     if (z_choice == 1) {
                         for (auto dit : qudits) {
                             if (tag == "rxy" || tag == "rz" || tag == "virtrz") {
-                                std::cout << "rz getting applied   "<< std::endl;
                                 py::list params_new;
 
                                 std::vector<int> dims;
@@ -456,24 +432,17 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
                                 Instruction newInst = std::make_tuple("rz", false, dims, "SINGLE", std::vector<int>{dit}, py::cast<py::object>(params_new), std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
                                 noisyCircuit.push_back(newInst);
                             } else {
-                                std::cout << "Z getting applied   "<< std::endl;
                                 py::object paramsNew;
-
                                 std::vector<int> dims;
                                 dims.push_back(static_cast<int>(dimensions[static_cast<unsigned long>(dit)]));
 
-                                // Construct params_new for other gates (e.g., z)
-                                // Example: params_new = some_value;
-                                std::cout << "Construction of Z  "<< std::endl;
                                 Instruction newInst = std::make_tuple("z", false, dims, "SINGLE", std::vector<int>{dit}, paramsNew, std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>());
-                                std::cout << "Here is Z  "<< std::endl;
                                 noisyCircuit.push_back(newInst);
                             }
                         }
                     }
                 }
             }
-            std::cout << "next turn "<< std::endl;
         }
     }
 
@@ -505,38 +474,20 @@ Circuit generateCircuit(const Circuit_info& circuitInfo, const NoiseModel& noise
 using ddpkg = std::unique_ptr<dd::MDDPackage>;
 
 dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
-    //std::cout << "getting your op "<< std::endl;
 	const auto& [tag, dag, dims, gate_type, target_qudits, params, control_set] = instruction;
-    /*
-    std::cout<< "tag" << tag << std::endl;
-    if(gate_type=="SINGLE"){
-        std::cout<< "target_qudits" << target_qudits.at(0) << std::endl;
-        std::cout<< "dim" << dims.at(0) << std::endl;
-        if(tag=="rxy"){
-            auto pl = params.cast<py::list>();
-            auto leva = pl[0].cast<size_t>();
-            auto levb = pl[1].cast<size_t>();
-            auto theta = pl[2].cast<double>();
-            auto phi = pl[3].cast<double>();
-            std::cout<<leva<< " "<< levb<< " "<< theta<< std::endl;
-        }
-    }
-    */
 
     dd::MDDPackage::mEdge gate;
     auto numberRegs= static_cast<dd::QuantumRegisterCount>(dd->numberOfQuantumRegisters);
 
     dd::QuantumRegister tq = 0;
-    //if(gate_type=="SINGLE"){
     tq = static_cast<dd::QuantumRegister>(target_qudits.at(0));
-    //}
 
-    // std::cout<< "Just before controls" << std::endl;
+
     dd::Controls controlSet{};
     if ( (std::get<0>(control_set).size()>0) && (std::get<1>(control_set).size()>0) ) {
         std::vector<dd::QuantumRegister> ctrlQudits = std::get<0>(control_set);
         std::vector<dd::Control::Type> ctrlLevels = std::get<1>(control_set);
-        // std::cout <<" inside control maker" <<std::endl;
+        /*
         for( uint i=0; i < ctrlQudits.size(); i++){
             const dd::Control c{ctrlQudits.at(i), ctrlLevels.at(i)};
             controlSet.insert(c);
@@ -549,10 +500,11 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
         for (const auto& elem : ctrlLevels) {
             // std::cout << elem << std::endl;
         }
+         */
 
 
     }
-    //std::cout << "selecting   "<< std::endl;
+
     if (tag == "rxy") {
         // Handle rxy tag with dimension 2
         auto pl = params.cast<py::list>();
@@ -576,17 +528,17 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 5)) {
-            // Handle rxy tag with dimension 5
+
             dd::QuintMatrix matrix = dd::RXY5(theta, phi, leva, levb);
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 6)) {
-            // Handle rxy tag with dimension 5
+
             dd::SextMatrix matrix = dd::RXY6(theta, phi, leva, levb);
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 7)) {
-            // Handle rxy tag with dimension 5
+
             dd::SeptMatrix matrix = dd::RXY7(theta, phi, leva, levb);
             gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
@@ -602,27 +554,27 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 3)) {
-            // Handle rxy tag with dimension 3
+
             dd::TritMatrix matrix = dd::RZ3(phi, leva, levb);
             gate = dd->makeGateDD<dd::TritMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 4)) {
-            // Handle rxy tag with dimension 4
+
             dd::QuartMatrix matrix = dd::RZ4(phi, leva, levb);
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 5)) {
-            // Handle rxy tag with dimension 5
+
             dd::QuintMatrix matrix = dd::RZ5(phi, leva, levb);
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 6)) {
-            // Handle rxy tag with dimension 5
+
             dd::SextMatrix matrix = dd::RZ6(phi, leva, levb);
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 7)) {
-            // Handle rxy tag with dimension 5
+
             dd::SeptMatrix matrix = dd::RZ7(phi, leva, levb);
             gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
@@ -638,59 +590,58 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 3)) {
-            // Handle rxy tag with dimension 3
+
             dd::TritMatrix matrix = dd::VirtRZ3(phi, leva);
             gate = dd->makeGateDD<dd::TritMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 4)) {
-            // Handle rxy tag with dimension 4
+
             dd::QuartMatrix matrix = dd::VirtRZ4(phi, leva);
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 5)) {
-            // Handle rxy tag with dimension 5
+
             dd::QuintMatrix matrix = dd::VirtRZ5(phi, leva);
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 6)) {
-            // Handle rxy tag with dimension 5
+
             dd::SextMatrix matrix = dd::VirtRZ6(phi, leva);
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 7)) {
-            // Handle rxy tag with dimension 5
+
             dd::SeptMatrix matrix = dd::VirtRZ7(phi, leva);
             gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
     } else if (tag == "x") {
-        // std::cout << "Making an X"<<std::endl;
+
         if (checkDim(dims, 2)) {
             dd::GateMatrix matrix = dd::Xmat;
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 3)) {
-            // Handle rxy tag with dimension 3
+
             dd::TritMatrix matrix = dd::X3;
             gate = dd->makeGateDD<dd::TritMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 4)) {
-            // Handle rxy tag with dimension 4
-            // std::cout << "Making an X 4"<<std::endl;
+
             dd::QuartMatrix matrix = dd::X4;
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 5)) {
-            // Handle rxy tag with dimension 5
+
             dd::QuintMatrix matrix = dd::X5;
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 6)) {
-            // Handle rxy tag with dimension 5
+
             dd::SextMatrix matrix = dd::X6;
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 7)) {
-            // Handle rxy tag with dimension 5
+
             dd::SeptMatrix matrix = dd::X7;
             gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
@@ -700,27 +651,27 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 3)) {
-            // Handle rxy tag with dimension 3
+
             dd::TritMatrix matrix = dd::S3();
             gate = dd->makeGateDD<dd::TritMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 4)) {
-            // Handle rxy tag with dimension 4
+
             dd::QuartMatrix matrix = dd::S4();
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 5)) {
-            // Handle rxy tag with dimension 5
+
             dd::QuintMatrix matrix = dd::S5();
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 6)) {
-            // Handle rxy tag with dimension 5
+
             dd::SextMatrix matrix = dd::S6();
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 7)) {
-            // Handle rxy tag with dimension 5
+
             dd::SeptMatrix matrix = dd::S7();
             gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
@@ -730,27 +681,27 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 3)) {
-            // Handle rxy tag with dimension 3
+
             dd::TritMatrix matrix = dd::Z3();
             gate = dd->makeGateDD<dd::TritMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 4)) {
-            // Handle rxy tag with dimension 4
+
             dd::QuartMatrix matrix = dd::Z4();
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 5)) {
-            // Handle rxy tag with dimension 5
+
             dd::QuintMatrix matrix = dd::Z5();
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 6)) {
-            // Handle rxy tag with dimension 5
+
             dd::SextMatrix matrix = dd::Z6();
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 7)) {
-            // Handle rxy tag with dimension 5
+
             dd::SeptMatrix matrix = dd::Z7();
             gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
@@ -761,32 +712,32 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
             gate = dd->makeGateDD<dd::GateMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 3)) {
-            // Handle rxy tag with dimension 3
+
             dd::TritMatrix matrix = dd::H3();
             gate = dd->makeGateDD<dd::TritMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 4)) {
-            // Handle rxy tag with dimension 4
+
             dd::QuartMatrix matrix = dd::H4();
             gate = dd->makeGateDD<dd::QuartMatrix>(matrix, numberRegs, controlSet, tq);
 
         } else if (checkDim(dims, 5)) {
-            // Handle rxy tag with dimension 5
+
             dd::QuintMatrix matrix = dd::H5();
             gate = dd->makeGateDD<dd::QuintMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 6)) {
-            // Handle rxy tag with dimension 5
+
             dd::SextMatrix matrix = dd::H6();
             gate = dd->makeGateDD<dd::SextMatrix>(matrix, numberRegs, controlSet, tq);
         }
         else if (checkDim(dims, 7)) {
-            // Handle rxy tag with dimension 5
+
             dd::SeptMatrix matrix = dd::H7();
             gate = dd->makeGateDD<dd::SeptMatrix>(matrix, numberRegs, controlSet, tq);
         }
-    } else if (tag == "cx") {
-        //std::cout << "IN cex "<< std::endl;
+    }
+    else if (tag == "cx") {
         auto pl = params.cast<py::list>();
 
         auto leva = pl[0].cast<size_t>();
@@ -796,9 +747,9 @@ dd::MDDPackage::mEdge getGate(const ddpkg& dd, const Instruction& instruction){
 
         auto cReg = static_cast<dd::QuantumRegister>(target_qudits.at(0));
         auto target = static_cast<dd::QuantumRegister>(target_qudits.at(1));
-        //std::cout << "about to cex "<< std::endl;
         return dd->CEX(numberRegs, ctrlLev, phi, leva, levb, cReg, target, dag);
-    } else if (tag == "csum") {
+    }
+    else if (tag == "csum") {
         //CSUM(QuantumRegisterCount n, QuantumRegister cReg, QuantumRegister target, bool isDagger = false)
         auto cReg = static_cast<dd::QuantumRegister>(target_qudits.at(0));
         auto target = static_cast<dd::QuantumRegister>(target_qudits.at(1));
@@ -816,16 +767,17 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
     //std::cout << "ddsim 0  "<< std::endl;
     //std::cout << "NUM LINES "<< numLines << std::endl;
     //std::cout << "dims " << std::endl;
+    /*
     for (size_t i = 0; i < dims.size(); ++i) {
-        //std::cout << dims[i];
+        std::cout << dims[i];
         if (i != dims.size() - 1) {
-            //std::cout << ", ";
+            std::cout << ", ";
         }
     }
-
+    */
     const ddpkg dd = std::make_unique<dd::MDDPackage>(numLines, dims);
     auto psi = dd->makeZeroState(numLines);
-    //std::cout << "going to loop "<< std::endl;
+
     for (const Instruction& instruction : circuit) {
         dd::MDDPackage::mEdge gate;
         try {
@@ -835,104 +787,46 @@ CVec ddsimulator(dd::QuantumRegisterCount numLines, const std::vector<size_t>& d
             throw; // Re-throw the exception to propagate it further
         }
         try {
-
             psi = dd->multiply(gate, psi);
-            std::cout << "THE MATRIX  " << std::endl;
-            dd->getVectorizedMatrix(gate);
         } catch (const std::exception& e) {
             printCircuit(circuit);
-
+            std::cout << "THE MATRIX  " << std::endl;
+            dd->getVectorizedMatrix(gate);
             std::cout << "THE VECTOR  " << std::endl;
             dd->printVector(psi);
             std::cerr << "Problem is in multiplication " << e.what() << std::endl;
             throw; // Re-throw the exception to propagate it further
         }
-
-
-        //dd->getVectorizedMatrix(gate);
-
-
-          
     }
-    //std::cout << "STATE WITH ENCODING "<< std::endl;
-    //dd->printVector(psi);
+
     return dd->getVector(psi);
 }
 
 
 py::list stateVectorSimulation(py::object &circ, py::object & noiseModel){
 
+    //pid_t pid = getpid();
+    //std::cout << "PID: " << pid << std::endl;
 
-    pid_t pid = getpid();
-    std::cout << "PID: " << pid << std::endl;
-
-
-//py::list stateVectorSimulation(){
-    //std::cout << "INSIDE" << std::endl;
 	auto parsedCircuitInfo = readCircuit(circ);
 	auto [numQudits, dims, original_circuit] = parsedCircuitInfo;
 
     Circuit noisyCircuit = original_circuit;
 
-	// std::cout << "simsimsimsimsims"<< std::endl;
-
     py::dict noiseModelDict = noiseModel.attr("quantum_errors").cast<py::dict>();
     NoiseModel newNoiseModel = parse_noise_model(noiseModelDict);
     //printNoiseModel(newNoiseModel);
-
     //std::cout << "======================================================"<< std::endl;
-
     //printCircuit(std::get<2>(parsedCircuitInfo));
     noisyCircuit = generateCircuit(parsedCircuitInfo, newNoiseModel);
 
     //std::cout << "===================NOISEEEEEEEEE======================="<< std::endl;
-
     //printCircuit(noisyCircuit);
-
-
-
 	//std::cout << "===================DD SIMULATION======================"<< std::endl;
 
-    //std::tuple<std::basic_string<char>, bool, std::vector<int>, std::basic_string<char>,
-    // std::vector<int>, pybind11::object, std::tuple<std::vector<dd::QuantumRegister>, std::vector<dd::Control::Type>>>
-    //tag, dag, dims, gate_type, target_qudits, params, control_set
-    /*
-    py::list paramsNew;
-
-    // Convert field_0 and field_1 to integers (assuming they are integers)
-    pybind11::int_ leva = py::cast<int>(0);
-    pybind11::int_ levb = py::cast<int>(1);
-    pybind11::int_ c = py::cast<int>(1);
-    paramsNew.append(leva);
-    paramsNew.append(levb);
-    paramsNew.append(c);
-    paramsNew.append(py::float_(0.));
-
-    // Construct the tuple using the "Instruction" alias
-    Instruction first = std::make_tuple(
-            "csum",                    // string
-            false,                  // bool
-            std::vector<int>{3,2},    // vector<int>
-            "TWO",               // string
-            std::vector<int>{1,0},    // vector<int>
-            paramsNew,              // py::object
-            std::make_tuple(
-                    std::vector<dd::QuantumRegister>{},  // vector<dd::QuantumRegister>
-                    std::vector<dd::Control::Type>{}     // vector<dd::Control::Type>
-                    )
-    );
-    Circuit circuit = {first};*/
-    //std::cout << "op get in "<< std::endl;
     CVec myList = ddsimulator(static_cast<dd::QuantumRegisterCount>(numQudits), static_cast<std::vector<size_t>>(dims), noisyCircuit);
 
-    //std::cout << "state vec 0  "<< std::endl;
-    for (const auto& elem : myList) {
-        //std::cout << elem << std::endl;
-    }
-
     py::list result = complex_vector_to_list(myList);
-
-    //std::cout << "state vec 1  "<< std::endl;
 
     return result;
 
