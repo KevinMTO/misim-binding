@@ -938,13 +938,15 @@ namespace dd {
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(15. * 2. * PI / 7.), std::sin(15. * 2. * PI / 7.)},
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(20. * 2. * PI / 7.), std::sin(20. * 2. * PI / 7.)},
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(25. * 2. * PI / 7.), std::sin(25. * 2. * PI / 7.)},
+                COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(30. * 2. * PI / 7.), std::sin(30. * 2. * PI / 7.)},
 
                 COMPLEX_SQRT7_7,
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(6. * 2. * PI / 7.), std::sin(6. * 2. * PI / 7.)},
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(12. * 2. * PI / 7.), std::sin(12. * 2. * PI / 7.)},
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(18. * 2. * PI / 7.), std::sin(18. * 2. * PI / 7.)},
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(24. * 2. * PI / 7.), std::sin(24. * 2. * PI / 7.)},
-                COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(30. * 2. * PI / 7.), std::sin(30. * 2. * PI / 7.)}
+                COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(30. * 2. * PI / 7.), std::sin(30. * 2. * PI / 7.)},
+                COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(36. * 2. * PI / 7.), std::sin(36. * 2. * PI / 7.)}
         };
     }
 
