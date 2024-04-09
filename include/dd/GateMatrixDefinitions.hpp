@@ -898,6 +898,7 @@ namespace dd {
                 COMPLEX_SQRT7_7,
                 COMPLEX_SQRT7_7,
                 COMPLEX_SQRT7_7,
+                COMPLEX_SQRT7_7,
 
                 COMPLEX_SQRT7_7,
                 COMPLEX_SQRT7_7 * dd::ComplexValue{std::cos(2. * PI / 7.), std::sin(2. * PI / 7.)},
