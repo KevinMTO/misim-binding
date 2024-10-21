@@ -6,7 +6,9 @@ set(CMAKE_C_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_C_COMPILER_WRAPPER "")
 set(CMAKE_C_STANDARD_COMPUTED_DEFAULT "17")
 set(CMAKE_C_EXTENSIONS_COMPUTED_DEFAULT "ON")
-set(CMAKE_C_COMPILE_FEATURES "c_std_90;c_function_prototypes;c_std_99;c_restrict;c_variadic_macros;c_std_11;c_static_assert;c_std_17;c_std_23")
+set(CMAKE_C_COMPILE_FEATURES
+    "c_std_90;c_function_prototypes;c_std_99;c_restrict;c_variadic_macros;c_std_11;c_static_assert;c_std_17;c_std_23"
+)
 set(CMAKE_C90_COMPILE_FEATURES "c_std_90;c_function_prototypes")
 set(CMAKE_C99_COMPILE_FEATURES "c_std_99;c_restrict;c_variadic_macros")
 set(CMAKE_C11_COMPILE_FEATURES "c_std_11;c_static_assert")
@@ -17,9 +19,6 @@ set(CMAKE_C_PLATFORM_ID "Linux")
 set(CMAKE_C_SIMULATE_ID "")
 set(CMAKE_C_COMPILER_FRONTEND_VARIANT "")
 set(CMAKE_C_SIMULATE_VERSION "")
-
-
-
 
 set(CMAKE_AR "/usr/bin/ar")
 set(CMAKE_C_COMPILER_AR "/usr/bin/gcc-ar-11")
@@ -62,11 +61,11 @@ if(CMAKE_C_CL_SHOWINCLUDES_PREFIX)
   set(CMAKE_CL_SHOWINCLUDES_PREFIX "${CMAKE_C_CL_SHOWINCLUDES_PREFIX}")
 endif()
 
-
-
-
-
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "/usr/lib/gcc/x86_64-linux-gnu/11/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES
+    "/usr/lib/gcc/x86_64-linux-gnu/11/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include"
+)
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "gcc;gcc_s;c;gcc;gcc_s")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "/usr/lib/gcc/x86_64-linux-gnu/11;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES
+    "/usr/lib/gcc/x86_64-linux-gnu/11;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib"
+)
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
