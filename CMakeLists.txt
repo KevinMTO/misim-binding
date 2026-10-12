@@ -17,7 +17,8 @@ include(cmake/PreventInSourceBuilds.cmake)
 include(cmake/CheckSubmodule.cmake)
 include(cmake/PackageAddTest.cmake)
 # include(cmake/ExternalDependencies.cmake)
-set(CMAKE_PREFIX_PATH "/home/k3vn/.local/lib/python3.10/site-packages/pybind11/share/cmake/pybind11")
+set(CMAKE_PREFIX_PATH
+    "/home/k3vn/.local/lib/python3.10/site-packages/pybind11/share/cmake/pybind11")
 
 # Use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
@@ -38,30 +39,26 @@ include(cmake/Sanitizers.cmake)
 enable_sanitizers(project_options)
 
 set(BINDINGS
-      ON
-      CACHE INTERNAL "Enable settings related to Python bindings")
-  # Some common settings for finding Python
-  set(Python_FIND_VIRTUALENV
-      FIRST
-      CACHE STRING "Give precedence to virtualenvs when searching for Python")
-  set(Python_FIND_FRAMEWORK
-      LAST
-      CACHE STRING "Prefer Brew/Conda to Apple framework Python")
-  set(Python_ARTIFACTS_INTERACTIVE
-      ON
-      CACHE
-        BOOL
-        "Prevent multiple searches for Python and instead cache the results.")
+    ON
+    CACHE INTERNAL "Enable settings related to Python bindings")
+# Some common settings for finding Python
+set(Python_FIND_VIRTUALENV
+    FIRST
+    CACHE STRING "Give precedence to virtualenvs when searching for Python")
+set(Python_FIND_FRAMEWORK
+    LAST
+    CACHE STRING "Prefer Brew/Conda to Apple framework Python")
+set(Python_ARTIFACTS_INTERACTIVE
+    ON
+    CACHE BOOL "Prevent multiple searches for Python and instead cache the results.")
 
-  # top-level call to find Python
-  find_package(
-    Python 3.8 REQUIRED
-    COMPONENTS Interpreter Development.Module
-    OPTIONAL_COMPONENTS Development.SABIModule)
-    
-  find_package(
-  pybind11 REQUIRED
-  )
+# top-level call to find Python
+find_package(
+  Python 3.8 REQUIRED
+  COMPONENTS Interpreter Development.Module
+  OPTIONAL_COMPONENTS Development.SABIModule)
+
+find_package(pybind11 REQUIRED)
 
 # add main library code
 add_library(
